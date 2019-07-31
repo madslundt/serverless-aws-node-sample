@@ -1,0 +1,44 @@
+import {
+    ApiCallback,
+    ApiContext,
+    ApiEvent,
+} from "@shared/api.interfaces";
+import errorHandling from "@shared/errorHandling";
+import { ok } from "@shared/responseBuilder";
+import {
+    getHealthCheckDetailedHandler,
+    getHealthCheckHandler,
+    IGetHealthCheckDetailedRequest,
+    IGetHealthCheckDetailedResponse,
+    IGetHealthCheckResponse
+} from "./handlers";
+
+const getHealthCheck = async (
+    event: ApiEvent,
+    context: ApiContext,
+    callback: ApiCallback
+) => {
+    await errorHandling(async () => {
+        const result = getHealthCheckHandler();
+
+        ok<IGetHealthCheckResponse>(result, callback);
+    }, callback);
+};
+
+const getHealthCheckDetailed = async (
+    event: ApiEvent,
+    context: ApiContext,
+    callback: ApiCallback
+) => {
+    await errorHandling(async () => {
+        const request: IGetHealthCheckDetailedRequest = {
+            requestId: event.requestContext.requestId
+        };
+
+        const result = getHealthCheckDetailedHandler(request);
+
+        ok<IGetHealthCheckDetailedResponse>(result, callback);
+    }, callback);
+};
+
+export { getHealthCheck, getHealthCheckDetailed };

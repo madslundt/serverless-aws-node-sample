@@ -1,0 +1,20 @@
+getHealthCheck:
+    handler: src/sample/index.getSample
+    description: Returns sample
+
+    events:
+        - http:
+              path: sample
+              method: get
+              cors: true
+              documentation:
+                  summary: Return sample
+                  tags:
+                      - Sample
+                  description: Returns the result of sample
+                  methodResponses:
+                      - statusCode: "200"
+                        description: Returned when the operation is completed successfully.
+                        responseModels:
+                            "application/json": getSample
+                      - ${file(./swagger/error-responses/internal-server-error.yml)}

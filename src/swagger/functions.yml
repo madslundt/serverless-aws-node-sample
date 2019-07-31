@@ -1,0 +1,16 @@
+getSwaggerJson:
+    handler: src/swagger/index.getSwaggerJson
+    description: Returns the Swagger documentation of the API in JSON format.
+
+    environment:
+        REGION_NAME: ${self:provider.region}
+        REST_API_NAME: ${self:service}
+        STAGE_NAME: ${self:provider.stage}
+        API_INFO_VERSION: ${file(swagger/documentation.yml):api.info.version}
+        API_INFO_TITLE: ${file(swagger/documentation.yml):api.info.title}
+
+    events:
+        - http:
+              path: swagger.json
+              method: get
+              cors: true
