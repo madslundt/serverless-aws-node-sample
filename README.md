@@ -59,7 +59,7 @@ custom:
 If you want to publish your API to a custom domain, uncomment both the `serverless-domain-manager` in the `plugins` section and the `customDomains` entry from the `custom` section of the `serverless.yml` file.
 
 ## DynamoDB
-DynamoDB is a fully managed NoSQL database and is able to scale. Read more about it [here](https://www.dynamodbguide.com/).
+Amazon DynamoDB is a fully managed NoSQL database and is able to scale. Read more about it [here](https://www.dynamodbguide.com/).
 
 ### Create table
 1. Sign in to [AWS Console](https://console.aws.amazon.com)
@@ -75,6 +75,7 @@ DynamoDB is a fully managed NoSQL database and is able to scale. Read more about
 ** On-Demand is DynamoDB’s pay per request mode. For workloads that are not predictable or if you are just starting out, this ends up being a lot cheaper than the Provisioned Capacity mode.
 
 ## AWS Cognito
+Amazon Cognito is a simple solution to user sign-up, sign-in, and access control
 Cognito from Amazon makes it easy to add sign-up and sign-in functionality to applications.
 
 ### Create user pool
@@ -131,12 +132,19 @@ aws cognito-idp admin-confirm-sign-up \
 **COGNITO_USER_POOL_ID** is the one that was created in [Create user pool](#create-user-pool).
 
 ## AWS API Gateway
+Amazon API Gateway is a fully managed service that is able to create, publish, maintain, monitor, and secure APIs.
+
 <TODO>
 
 ## SNS
+Amazon Simple Notification Service is a fully managed pub/sub messaging.
+Each serverless function can subscribe to event(s) and/or publish to event(s)
+
 <TODO>
 
 ## AWS CloudWatch
+Amazon CloudWatch is a monitoring and management service to monitor applications, understand and respond to system-wide performance changes, optimize resource utilization, and get a unified view of operational health.
+
 ### Enable API Gateway CloudWatch logs
 1. Sign in to [AWS Console](https://console.aws.amazon.com)
 2. Select IAM from the list of services
@@ -188,6 +196,8 @@ serverless logs -f <func-name> --tail
 ```
 
 ## AWS X-Ray
+AWS X-Ray is an Application Performance Management(APM) tool.
+
 <TODO>
 
 # Project structure
