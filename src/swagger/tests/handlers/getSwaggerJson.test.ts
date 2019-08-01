@@ -31,6 +31,7 @@ describe("getSwaggerJson", () => {
 
         try {
             await getSwaggerJsonHandler();
+            expect(false).toBeTruthy();
         } catch (exception) {
             expect(exception).toStrictEqual(
                 new NotFoundException(
@@ -45,6 +46,7 @@ describe("getSwaggerJson", () => {
 
         try {
             await getSwaggerJsonHandler();
+            expect(false).toBeTruthy();
         } catch (exception) {
             expect(exception).toStrictEqual(
                 new NotFoundException(
@@ -60,6 +62,7 @@ describe("getSwaggerJson", () => {
 
         try {
             await getSwaggerJsonHandler();
+            expect(false).toBeTruthy();
         } catch (exception) {
             expect(exception instanceof InternalServerErrorException).toBeTruthy();
         }
@@ -71,6 +74,7 @@ describe("getSwaggerJson", () => {
 
         try {
             await getSwaggerJsonHandler();
+            expect(false).toBeTruthy();
         } catch (exception) {
             expect(exception).toStrictEqual(
                 new ForbiddenException("Missing permissions", exception.message)

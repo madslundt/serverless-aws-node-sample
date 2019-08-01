@@ -38,6 +38,7 @@ describe("Validation Handling", () => {
 
         try {
             validationHandling(expectedRequest, schema);
+            expect(false).toBeTruthy();
         } catch (exception) {
             expect(exception instanceof BadRequestException).toBeTruthy();
         }
@@ -54,6 +55,7 @@ describe("Validation Handling", () => {
 
         try {
             validationHandling(expectedRequest, schema);
+            expect(false).toBeTruthy();
         } catch (exception) {
             expect(consoleErrorMock).toHaveBeenCalledTimes(1);
         }

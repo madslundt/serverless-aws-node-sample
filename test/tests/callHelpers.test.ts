@@ -52,6 +52,7 @@ describe("callHelpers", () => {
 
             try {
                 await callSuccess(handlerMock);
+                expect(false).toBeTruthy();
             } catch (exception) {
                 expect(exception).toBe("No result was returned by the handler!");
             }
@@ -105,6 +106,7 @@ describe("callHelpers", () => {
 
             try {
                 await callFailure(handlerMock);
+                expect(false).toBeTruthy();
             } catch (exception) {
                 expect(exception).toBe("No result was returned by the handler!");
             }

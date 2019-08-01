@@ -1,43 +1,49 @@
-var path = require("path");
+/* tslint:disable */
+const webpack = require("webpack");
+const path = require("path");
 const slsw = require("serverless-webpack");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const nodeExternals = require("webpack-node-externals")
 
-const entries = {};
-Object.keys(slsw.lib.entries).forEach(
-    key => (entries[key] = ["./source-map-install.js", slsw.lib.entries[key]])
-);
+module.exports = (async () => {
+    // const accountId = await slsw.lib.serverless.providers.aws.getAccountId();
 
-module.exports = {
-    entry: entries,
-    externals: ["aws-sdk"],
-    target: "node",
-    mode: "production",
-    module: {
-        rules: [
-            {
-                test: /\.ts(x?)$/,
-                use: [
-                    {
-                        loader: "ts-loader"
-                    }
-                ],
-            }
-        ]
-    },
-    resolve: {
-        plugins: [
-            new TsconfigPathsPlugin()
-        ],
-        extensions: [
-            ".js",
-            ".json",
-            ".ts",
-            ".tsx"
-        ]
-    },
-    output: {
-        libraryTarget: "commonjs",
-        path: path.join(__dirname, ".build"),
-        filename: "[name].js"
-    }
-};
+    return {
+        entry: slsw.lib.entries,
+        externals: ["aws-sdk", nodeExternals()],
+        node: {
+            __dirname: true
+        },
+        devtool: "source-map",
+        target: "node",
+        mode: slsw.lib.webpack.isLocal ? "development" : "production",
+        // plugins: [
+        //     new webpack.DefinePlugin({
+        //         AWS_ACCOUNT_ID: `${accountId}`
+        //     })
+        // ],
+        module: {
+            rules: [
+                {
+                    test: /\.ts(x?)$/,
+                    use: [
+                        {
+                            loader: "ts-loader"
+                        }
+                    ]
+                }
+            ]
+        },
+        resolve: {
+            plugins: [new TsconfigPathsPlugin()],
+            extensions: [".js", ".json", ".ts", ".tsx"]
+        },
+        output: {
+            libraryTarget: "commonjs",
+            path: path.resolve(__dirname, ".build"),
+            filename: "[name].js",
+            sourceMapFilename: "[file].map"
+        }
+    };
+})();
+/* tslint:enable */

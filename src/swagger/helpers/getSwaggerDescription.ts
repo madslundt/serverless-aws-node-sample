@@ -22,10 +22,9 @@ const getSwaggerDescription = async (
                 (error: AWSError, data: APIGateway.ExportResponse): void => {
                     if (error) {
                         reject(error);
-                        return;
+                    } else {
+                        resolve(data.body as string);
                     }
-
-                    resolve(data.body as string);
                 }
             );
         }

@@ -41,7 +41,6 @@ package:
         - src/**/*.ts
 
 functions:
-    - ${file(./src/city/functions.yml)}
     - ${file(./src/swagger/functions.yml)}
     - ${file(./src/health/functions.yml)}
     - ${file(./src/sample/functions.yml)}

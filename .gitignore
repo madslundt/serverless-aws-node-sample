@@ -8,6 +8,7 @@ jspm_packages
 # Build directories
 .webpack
 .build
+_optimize
 
 # Logs
 logs

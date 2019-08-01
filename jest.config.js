@@ -4,7 +4,7 @@ const moduleNameMapper = require("tsconfig-paths-jest")(tsconfig)
 
 module.exports = {
     testEnvironment: "node",
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+    moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
     transform: {
         "^.+\\.(ts|tsx)$": "ts-jest"
     },
