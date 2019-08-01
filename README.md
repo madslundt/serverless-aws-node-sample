@@ -56,7 +56,7 @@ custom:
 
 **NOTE:** You must have the certificate created in [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) before executing this command. According to AWS to use an ACM certificate with API Gateway, you must [request or import the certificate](https://serverless.com/blog/serverless-api-gateway-domain/) in the US East (N. Virginia) region.
 
-If you want to publish your API to a custom domain, uncomment both the `serverless-domain-manager` in the `plugins` section and the `customDomains` entry from the `custom` section of the `serverless.yml` file.
+If you want to publish your API to a custom domain, uncomment both the `serverless-domain-manager` in the `plugins` section and the `customDomain` entry from the `custom` section of the `serverless.yml` file.
 
 ## DynamoDB
 Amazon DynamoDB is a fully managed NoSQL database and is able to scale. Read more about it [here](https://www.dynamodbguide.com/).
@@ -345,3 +345,35 @@ The unit tests are automatically running before deployment, so you don't need to
 ## View the documentation
 
 To view the generated Swagger documentation, deploy your API or start it locally, and then call the `/swagger.json` endpoint.
+
+# Automate deployment
+
+## Seed
+
+1. Sign in to [Seed console](https://console.seed.run/signup-account)
+2. Click **Add your first app**
+3. Select how to connect to your repo by choosing a provider
+4. After Seed has finished scanning your repo, select `serverless.yml` as service
+5. Click **Add Service**
+6. Enter your credentials for your AWS
+7. Click **Add a New App**
+8. Click **Settings**
+9. Click **Enable Unit Tests**
+
+### Configure secrets
+
+1. Click **Settings** in the stage environment you want to add secrets to
+2. Click **Show Env Variables**
+3. Enter your secrets by key and value
+4. Click **Add**
+
+### Custom Domains
+
+1. Click **View Resources** in the stage environment you want custom domain on
+2. Click **Settings**
+3. Click **Update Custom Domain**
+4. Click **Select a domain**
+5. Select a domain from the list *
+6. Click **Update**
+
+* The list contains all the Route 53 domains you've specified in serverless.yml
