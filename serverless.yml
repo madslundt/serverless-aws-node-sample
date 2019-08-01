@@ -1,4 +1,4 @@
-service: serverless-sample
+service: serverless-aws-node-sample
 
 provider:
     name: aws
@@ -7,9 +7,9 @@ provider:
     logRetentionInDays: 30
     timeout: 30
     environment:
-      DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+        DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
     # iamRoleStatements:
-        # API Gateway
+    # API Gateway
     #   - Effect: "Allow"
     #     Action:
     #       - "apigateway:GET"
@@ -41,9 +41,9 @@ package:
         - src/**/*.ts
 
 functions:
-    - ${file(./src/swagger/functions.yml)}
-    - ${file(./src/health/functions.yml)}
-    - ${file(./src/sample/functions.yml)}
+    - ${file(src/health/functions.yml)}
+    - ${file(src/swagger/functions.yml)}
+    - ${file(src/sample/functions.yml)}
 
 # resources:
 #   Resources:
@@ -90,7 +90,7 @@ functions:
 #         Name: CognitoUserPoolArn-${self:custom.currentStage}
 
 custom:
-    documentation: ${file(./swagger/documentation.yml)}
+    documentation: ${file(swagger/documentation.yml)}
     defaultStage: dev
     currentStage: ${opt:stage, self:custom.defaultStage}
     # customDomain:

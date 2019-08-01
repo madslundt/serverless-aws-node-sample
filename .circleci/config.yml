@@ -1,13 +1,13 @@
 version: 2
 jobs:
-  build:
-    docker:
-      - image: circleci/node:10
-    steps:
-      - checkout
-      - run: npm install -g serverless
-      - run: npm install -g greenkeeper-lockfile@1
-      - run: greenkeeper-lockfile-update
-      - run: npm run build
-      - run: npm run test:ci
-      - run: greenkeeper-lockfile-upload
+    build:
+        docker:
+            - image: circleci/node:10
+        steps:
+            - checkout
+            - run: npm install -g serverless
+            - run: npm install -g greenkeeper-lockfile@1
+            - run: greenkeeper-lockfile-update
+            - run: npm run build
+            - run: npm run test:ci
+            - run: greenkeeper-lockfile-upload

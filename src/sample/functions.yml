@@ -1,4 +1,4 @@
-getHealthCheck:
+getSample:
     handler: src/sample/index.getSample
     description: Returns sample
 

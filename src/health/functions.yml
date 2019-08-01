@@ -1,24 +1,3 @@
-getHealthCheck:
-    handler: src/health/index.getHealthCheck
-    description: Returns the result of a quick health check of the API.
-
-    events:
-        - http:
-              path: health/check
-              method: get
-              cors: true
-              documentation:
-                  summary: Returns the result of a quick health check of the API.
-                  tags:
-                      - Health
-                  description: Returns the result of a quick health check of the API.
-                  methodResponses:
-                      - statusCode: "200"
-                        description: Returned when the operation is completed successfully.
-                        responseModels:
-                            "application/json": GetHealthCheck
-                      - ${file(./swagger/error-responses/internal-server-error.yml)}
-
 getHealthCheckDetailed:
     handler: src/health/index.getHealthCheckDetailed
     description: Returns the result of a detailed health check of the API.
@@ -38,4 +17,25 @@ getHealthCheckDetailed:
                         description: Returned when the operation is completed successfully.
                         responseModels:
                             "application/json": GetHealthCheckDetailed
-                      - ${file(./swagger/error-responses/internal-server-error.yml)}
+                      - ${file(swagger/error-responses/internal-server-error.yml)}
+
+getHealthCheck:
+    handler: src/health/index.getHealthCheck
+    description: Returns the result of a quick health check of the API.
+
+    events:
+        - http:
+              path: health/check
+              method: get
+              cors: true
+              documentation:
+                  summary: Returns the result of a quick health check of the API.
+                  tags:
+                      - Health
+                  description: Returns the result of a quick health check of the API.
+                  methodResponses:
+                      - statusCode: "200"
+                        description: Returned when the operation is completed successfully.
+                        responseModels:
+                            "application/json": GetHealthCheck
+                      - ${file(swagger/error-responses/internal-server-error.yml)}

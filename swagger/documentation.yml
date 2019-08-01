@@ -1,21 +1,21 @@
 api:
-  info:
-    version: '1'
-    title: Example API
-    description: Example API that demonstrates a project split for AWS Lambda written in Node.
-    contact:
-      name: Mads Engel Lundt
-      url: https://www.linkedin.com/in/madslundt
-    license:
-      name: MIT
-      url: https://raw.githubusercontent.com/madslundt/serverless-aws-node-sample/master/LICENSE
-  tags:
-    - name: Sample
-      description: Manipulate sample.
-    - name: Health
-      description: Health check.
+    info:
+        version: "1"
+        title: Example API
+        description: Example API that demonstrates a project split for AWS Lambda written in Node.
+        contact:
+            name: Mads Engel Lundt
+            url: https://www.linkedin.com/in/madslundt
+        license:
+            name: MIT
+            url: https://raw.githubusercontent.com/madslundt/serverless-aws-node-sample/master/LICENSE
+    tags:
+        - name: Sample
+          description: Manipulate sample.
+        - name: Health
+          description: Health check.
 models:
-  - ${file(./swagger/error-responses/error-response.yml)}
-  - ${file(./src/sample/swagger/get-sample-response.yml)}
-  - ${file(./src/health/swagger/get-health-check.yml)}
-  - ${file(./src/health/swagger/get-health-check-detailed.yml)}
+    - ${file(swagger/error-responses/error-response.yml)}
+    - ${file(src/sample/swagger/get-sample-response.yml)}
+    - ${file(src/health/swagger/get-health-check.yml)}
+    - ${file(src/health/swagger/get-health-check-detailed.yml)}

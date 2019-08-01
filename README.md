@@ -62,9 +62,9 @@ If you want to publish your API to a custom domain, uncomment both the `serverle
 Amazon DynamoDB is a fully managed NoSQL database and is able to scale. Read more about it [here](https://www.dynamodbguide.com/).
 
 ### Create table
-1. Sign in to [AWS Console](https://console.aws.amazon.com)
-2. Click **DynamoDB**
-3. Click **Create**
+1. Sign in to [AWS DynamoDB Console](https://console.aws.amazon.com/dynamodb)
+2. Click **Tables** in the left menu
+3. Click **Create table**
 4. Enter **Table name** and **Primary key** *
 5. Select **Use default settings**
 6. Select either **Provisioned** or **On-demand** **
@@ -80,8 +80,8 @@ Cognito from Amazon makes it easy to add sign-up and sign-in functionality to ap
 
 ### Create user pool
 This guides you into how to set up a user pool for this application.
-1. Sign in to [AWS Console](https://console.aws.amazon.com)
-2. Click **Manage your User Pools**
+1. Sign in to [AWS Cognito Console](https://console.aws.amazon.com/cognito)
+2. Click **Manage User Pools**
 3. Click **Create a User Pool**
 4. Enter a pool name and click **Review default**
 5. Click **Choose username attributes...**
@@ -134,31 +134,39 @@ aws cognito-idp admin-confirm-sign-up \
 ## AWS API Gateway
 Amazon API Gateway is a fully managed service that is able to create, publish, maintain, monitor, and secure APIs.
 
-<TODO>
+### Setup API Gateway from Swagger
+1. Sign in to [AWS API Gateway Console](https://console.aws.amazon.com/apigateway)
+2. Click on **Create** or **Get started**
+3. Select **REST** in *protocol*
+4. Select **Import from Swagger or Open API 3** in *Create new API*
+5. Go to */swagger.json*
+6. Copy all content and paste it into AWS
+7. Select your *Endpoint Type*
+8. Click **Import**
 
 ## SNS
 Amazon Simple Notification Service is a fully managed pub/sub messaging.
 Each serverless function can subscribe to event(s) and/or publish to event(s)
 
+### Enable SNS
 <TODO>
 
 ## AWS CloudWatch
 Amazon CloudWatch is a monitoring and management service to monitor applications, understand and respond to system-wide performance changes, optimize resource utilization, and get a unified view of operational health.
 
 ### Enable API Gateway CloudWatch logs
-1. Sign in to [AWS Console](https://console.aws.amazon.com)
-2. Select IAM from the list of services
-3. Click **Roles**
-4. Click **Create role**
-5. Click **AWS service** and select **API Gateway**
-6. Click **Next: Permissions**
-7. Click **Next: Review**
-8. Enter a **Role name** and click **Create role**
-9. Click on the role name just created
-10. Store **Role ARN** somewhere where it is easy to find again
+1. Sign in to [AWS IAM Console](https://console.aws.amazon.com/iam)
+2. Click **Roles**
+3. Click **Create role**
+4. Click **AWS service** and select **API Gateway**
+5. Click **Next: Permissions**
+6. Click **Next: Review**
+7. Enter a **Role name** and click **Create role**
+8. Click on the role name just created
+9. Store **Role ARN** somewhere where it is easy to find again
 
 Now that IAM role is created logging has to be turned on for API Gateway
-1. In [AWS Console](https://console.aws.amazon.com) click **API Gateway**
+1. Sign in to [AWS API Gateway Console](https://console.aws.amazon.com/apigateway)
 2. Click **Settings**
 3. Find the **Role ARN** that you stored earlier and paste it into **CloudWatch log role ARN**
 4. Click **Save**
@@ -174,16 +182,14 @@ Lambda CloudWatch logs are enabled by default.
 To log any additional information to CloudWatch simply do it via `console.log`.
 
 ### View API Gateway CloudWatch logs
-1. Sign in to [AWS Console](https://console.aws.amazon.com)
-2. Click **CloudWatch**
-3. Click **Logs**
-4. Click **API-Gateway-Execution-Logs_X** where X being the API Gateway id
+1. Sign in to [AWS CloudWatch Console](https://console.aws.amazon.com/cloudwatch)
+2. Click **Logs**
+3. Click **API-Gateway-Execution-Logs_X** where X being the API Gateway id
 
 ### View Lamda CloudWatch logs
-1. Sign in to [AWS Console](https://console.aws.amazon.com)
-2. Click **CloudWatch**
-3. Click **Logs**
-4. Click **/aws/lambda/X** where X being the function name
+1. Sign in to [AWS CloudWatch Console](https://console.aws.amazon.com/cloudwatch)
+2. Click **Logs**
+3. Click **/aws/lambda/X** where X being the function name
 
 Serverless CLI can also be used to read logs from CloudWatch. Simply run the command
 ```bash
@@ -197,6 +203,12 @@ serverless logs -f <func-name> --tail
 
 ## AWS X-Ray
 AWS X-Ray is an Application Performance Management(APM) tool.
+
+### Enable X-Ray for a function
+1. Sign in to [AWS Lambda Console](https://console.aws.amazon.com/lambda)
+2. Click on a function
+3. Click on **Configuration**
+4. In **Debugging and error handling**, select **Enable active tracing**
 
 <TODO>
 
