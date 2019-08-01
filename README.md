@@ -131,9 +131,10 @@ aws cognito-idp admin-confirm-sign-up \
 **COGNITO_USER_POOL_ID** is the one that was created in [Create user pool](#create-user-pool).
 
 ## AWS API Gateway
+<TODO>
 
 ## SNS
-
+<TODO>
 
 ## AWS CloudWatch
 ### Enable API Gateway CloudWatch logs
@@ -186,6 +187,8 @@ Additionally, you can use the --tail flag to stream the logs automatically to yo
 serverless logs -f <func-name> --tail
 ```
 
+## AWS X-Ray
+<TODO>
 
 # Project structure
 
