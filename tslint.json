@@ -16,6 +16,8 @@
     "arrow-parens": false,
     "one-variable-per-declaration": false,
     "no-increment-decrement": false,
+    "object-literal-sort-keys": false,
+    "no-empty-interface": false,
     "quotemark": [true, "double"],
     "brace-style": [
       false,

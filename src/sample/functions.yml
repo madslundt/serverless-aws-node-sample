@@ -1,5 +1,5 @@
 getSample:
-    handler: src/sample/index.getSample
+    handler: src/sample/sampleController.getSample
     description: Returns sample
 
     events:

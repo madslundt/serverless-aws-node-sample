@@ -2,9 +2,9 @@ import {
     ApiCallback,
     ApiContext,
     ApiEvent,
-} from "@shared/api.interfaces";
-import errorHandling from "@shared/errorHandling";
-import { ok } from "@shared/responseBuilder";
+} from "@infrastructure/api.interfaces";
+import errorHandling from "@infrastructure/errorHandling";
+import { ok } from "@infrastructure/responseBuilder";
 import {
     getHealthCheckDetailedHandler,
     getHealthCheckHandler,

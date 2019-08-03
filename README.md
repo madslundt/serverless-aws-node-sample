@@ -23,8 +23,8 @@ npm install
 ## Setup AWS credentials
 
 1. Setup IAM
-  * Create a new IAM Policy in AWS using the `aws-setup/aws-policy.json` file. Note that the file contains placeholders for your `<account_no>`, `<region>`, `<service_name>`, and `<your_deployment_bucket>`.
-  You can replace all those `Resource` ARNs with `*`, if you intentionally don't want to follow the Principle of Least Privilege, but want to avoid permission issues.
+  * Create a new IAM Policy in AWS using the `aws-setup/aws-policy.json` file. The file contain placeholders for `<account_no>`, `<region>`, `<service_name>`, and `<your_deployment_bucket>`.
+  Replace all the `Resource` ARNs with `*`, if you intentionally don't want to follow the Principle of Least Privilege, but want to avoid permission issues.
   (If you prefer minimal permissions, you may want to follow [Issue 1439: Narrowing the Serverless IAM Deployment Policy](https://github.com/serverless/serverless/issues/1439). )
 
   * Create a new IAM User for Programmatic Access only, assign the previously created policy to it, and get the Access Key ID and the Secret Access Key of the user.
@@ -39,13 +39,13 @@ npm install
 
   More about setting up AWS Credentials on the [AWS - Credentials page](https://serverless.com/framework/docs/providers/aws/guide/credentials/) of the Serverless Guide.
 
-2. **Customize the name of your service** by changing the following line in the `serverless.yml` file:
+2. **Customize the name of the service** by changing the following line in the `serverless.yml` file:
 
 ```
 service: serverless-aws-node-sample
 ```
 
-3. **Customize the name of your domain** by changing the following lines in the `serverless.yml` file:
+3. **Customize the name of the domain** by changing the following lines in the `serverless.yml` file:
 
 ```
 custom:
@@ -54,7 +54,7 @@ custom:
     certificateName: serverless-aws-node-sample.dk
 ```
 
-**NOTE:** You must have the certificate created in [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) before executing this command. According to AWS to use an ACM certificate with API Gateway, you must [request or import the certificate](https://serverless.com/blog/serverless-api-gateway-domain/) in the US East (N. Virginia) region.
+**NOTE:** The certificate must be created in [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) before executing this command. According to AWS to use an ACM certificate with API Gateway, you must [request or import the certificate](https://serverless.com/blog/serverless-api-gateway-domain/).
 
 If you want to publish your API to a custom domain, uncomment both the `serverless-domain-manager` in the `plugins` section and the `customDomain` entry from the `custom` section of the `serverless.yml` file.
 
@@ -75,11 +75,13 @@ Amazon DynamoDB is a fully managed NoSQL database and is able to scale. Read mor
 ** On-Demand is DynamoDB’s pay per request mode. For workloads that are not predictable or if you are just starting out, this ends up being a lot cheaper than the Provisioned Capacity mode.
 
 ## AWS Cognito
-Amazon Cognito is a simple solution to user sign-up, sign-in, and access control
-Cognito from Amazon makes it easy to add sign-up and sign-in functionality to applications.
+Amazon Cognito is a solution to user sign-up, sign-in, and access control.
 
 ### Create user pool
-This guides you into how to set up a user pool for this application.
+Cognito User Pool is a managed user directory. This can be used as an identity provider.
+
+This guides you into how to set up a user pool for the application(s).
+
 1. Sign in to [AWS Cognito Console](https://console.aws.amazon.com/cognito)
 2. Click **Manage User Pools**
 3. Click **Create a User Pool**
@@ -179,7 +181,7 @@ Now that IAM role is created logging has to be turned on for API Gateway
 
 ### Enable Lambda CloudWatch logs
 Lambda CloudWatch logs are enabled by default.
-To log any additional information to CloudWatch simply do it via `console.log`.
+To log any additional information to CloudWatch simply do it via `console.log`, `console.error`, `console.warn`.
 
 ### View API Gateway CloudWatch logs
 1. Sign in to [AWS CloudWatch Console](https://console.aws.amazon.com/cloudwatch)
@@ -204,7 +206,9 @@ serverless logs -f <func-name> --tail
 ## AWS X-Ray
 AWS X-Ray is an Application Performance Management(APM) tool.
 
-### Enable X-Ray for a function
+### Enable or disable X-Ray for a function
+This should be enabled by default when `provider.tracing.lambda = true` in `serverless.yml`
+
 1. Sign in to [AWS Lambda Console](https://console.aws.amazon.com/lambda)
 2. Click on a function
 3. Click on **Configuration**
@@ -221,7 +225,8 @@ This project shows example Lambda function implementations with the following la
 - **Helpers**: Alternative helper functions.
 - **functions.yml**: Function configuration for AWS and documentation for Swagger. *Make all paths begin from root of the project*.
 - **Swagger**: Swagger documentation for all controller functions. *Make sure to add them to `/swagger/documentation.yml`*.
-- **index.ts**: Collect all functions for easier export.
+- **__tests__**: Unit tests for controller, handlers, and helpers.
+- **index.ts**: Collect all functions for cleaner export.
 
 All layers have unit tests with mocking the underlying layers.
 

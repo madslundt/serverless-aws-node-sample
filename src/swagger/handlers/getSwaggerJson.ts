@@ -1,12 +1,13 @@
 import {
     ForbiddenException,
     NotFoundException
-} from "@shared/errors";
+} from "@infrastructure/errors";
 
 import {
     getRestApiId,
     getSwaggerDescription,
 } from "../helpers";
+import parseJson from "@shared/helpers/parseJson";
 
 export interface IRequest {
     API_INFO_TITLE: string;
@@ -55,7 +56,7 @@ const handler = async (): Promise<IResponse> => {
             stageName
         );
 
-        const result: IResponse = JSON.parse(jsonDescription) as IResponse;
+        const result: IResponse = parseJson(jsonDescription) as IResponse;
 
         // Remove the /swagger.json path from the documentation.
         delete result.paths["/swagger.json"];

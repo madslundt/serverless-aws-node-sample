@@ -1,5 +1,5 @@
 getHealthCheckDetailed:
-    handler: src/health/index.getHealthCheckDetailed
+    handler: src/health/healthController.getHealthCheckDetailed
     description: Returns the result of a detailed health check of the API.
 
     events:
@@ -20,7 +20,7 @@ getHealthCheckDetailed:
                       - ${file(swagger/error-responses/internal-server-error.yml)}
 
 getHealthCheck:
-    handler: src/health/index.getHealthCheck
+    handler: src/health/healthController.getHealthCheck
     description: Returns the result of a quick health check of the API.
 
     events:

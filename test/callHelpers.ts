@@ -4,7 +4,8 @@ import {
     ApiHandler,
     ApiResponse,
     IErrorResponseBody
-} from "@shared/api.interfaces";
+} from "@infrastructure/api.interfaces";
+import parseJson from "@shared/helpers/parseJson";
 
 type SuccessCaller = <T>(
     handler: ApiHandler,
@@ -45,7 +46,7 @@ const callSuccess: SuccessCaller = <T>(
                 }
 
                 const parsedResult: IApiResponseParsed<T> = result as IApiResponseParsed<T>;
-                parsedResult.parsedBody = JSON.parse(result.body) as T;
+                parsedResult.parsedBody = parseJson(result.body) as T;
                 resolve(parsedResult);
             }
         );
@@ -67,7 +68,7 @@ const callFailure: FailureCaller = (
                 }
 
                 const parsedResult: IApiErrorResponseParsed = result as IApiErrorResponseParsed;
-                parsedResult.parsedBody = JSON.parse(result.body) as IErrorResponseBody;
+                parsedResult.parsedBody = parseJson(result.body) as IErrorResponseBody;
                 resolve(parsedResult);
             }
         );

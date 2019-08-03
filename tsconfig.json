@@ -6,15 +6,9 @@
         "removeComments": true,
         "target": "esnext",
         "module": "esnext",
-        "lib": [
-            "es5",
-            "es6",
-            "dom",
-            "es2015",
-            "esnext.asynciterable"
-        ],
+        "lib": ["es5", "es6", "dom", "es2015", "esnext.asynciterable"],
         "moduleResolution": "node",
-        "allowJs": true,
+        "allowJs": false,
         "checkJs": false,
         "noImplicitAny": true,
         "noUnusedLocals": true,
@@ -27,10 +21,12 @@
         "allowSyntheticDefaultImports": true,
         "paths": {
             "@src/*": ["src/*"],
-            "@shared/*": ["shared/*"],
-            "@test/*": ["test/*"]
-        }
+            "@infrastructure/*": ["infrastructure/*"],
+            "@test/*": ["test/*"],
+            "@shared/*": ["shared/*"]
+        },
+        "typeRoots": ["node_modules/@types", "typings"]
     },
-    "include": ["src/**/*", "shared/**/*", "test/**/*"],
+    "include": ["src/**/*", "infrastructure/**/*", "shared/**/*", "test/**/*"],
     "exclude": ["node_modules", "coverage"]
 }

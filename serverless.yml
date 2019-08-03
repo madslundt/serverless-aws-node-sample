@@ -3,74 +3,101 @@ service: serverless-aws-node-sample
 provider:
     name: aws
     runtime: nodejs10.x
-    stage: ${self:custom.currentStage}
+    stage: ${self:custom.stage}
     logRetentionInDays: 30
     timeout: 30
+    tracing: true
     environment:
-        DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
-    # iamRoleStatements:
-    #   - Effect: "Allow"
-    #     Action:
-    #       - "apigateway:GET"
-    #     Resource:
-    #       - "arn:aws:apigateway:${self:provider.region}::/restapis*"
-    #   - Effect: Allow
-    #     Action:
-    #       - dynamodb:Query
-    #       - dynamodb:Scan
-    #       - dynamodb:GetItem
-    #       - dynamodb:PutItem
-    #       - dynamodb:UpdateItem
-    #       - dynamodb:DeleteItem
-    #     Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+        SNS_TOPIC_ARN: ${self:custom.snsTopicArn}
+    iamRoleStatements:
+        # DynamoDB
+        - Effect: Allow
+          Action:
+              - dynamodb:Query
+              - dynamodb:Scan
+              - dynamodb:GetItem
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+              - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:custom.dynamodbTables.MESSAGE_TABLE_NAME}"
+        # X-Ray
+        - Effect: "Allow"
+          Action:
+              - "xray:PutTraceSegments"
+              - "xray:PutTelemetryRecords"
+          Resource:
+              - "*"
+        # API Gateway
+        # - Effect: "Allow"
+        #   Action:
+        #       - "apigateway:GET"
+        #   Resource:
+        #       - "arn:aws:apigateway:${self:provider.region}::/restapis*"
 
 plugins:
     - serverless-webpack
     - serverless-offline
     - serverless-aws-documentation
-    # - serverless-domain-manager
     - serverless-stack-output
+    - serverless-pseudo-parameters
+    - serverless-plugin-tracing
+    - serverless-prune-plugin
+    - serverless-dotenv-plugin
+    # - serverless-domain-manager
 
 package:
     individually: true
     include: src/**/!.test.js
     exclude:
         - node_modules/**/*
-        - src/**/*.test.js
+        - src/**/*.test.*
         - src/**/*.ts
+        - "**/__tests__/*"
 
 functions:
     - ${file(src/health/functions.yml)}
     - ${file(src/swagger/functions.yml)}
     - ${file(src/sample/functions.yml)}
+    - ${file(src/message/functions.yml)}
 
-# resources:
-# API Gateway Errors
-#   - ${file(resources/api-gateway-errors.yml)}
-  # DynamoDB
-#   - ${file(resources/dynamodb-table.yml)}
-  # S3
-#   - ${file(resources/s3-bucket.yml)}
-  # Cognito
-#   - ${file(resources/cognito-user-pool.yml)}
+resources:
+    # DynamoDB
+    - ${file(resources/dynamodb-tables.yml)}
+    # Cognito
+    - ${file(resources/cognito-user-pool.yml)}
+    # S3
+    #   - ${file(resources/s3-bucket.yml)}
+    # API Gateway Errors
+    #   - ${file(resources/api-gateway-errors.yml)}
 
 custom:
     documentation: ${file(swagger/documentation.yml)}
     defaultStage: dev
-    currentStage: ${opt:stage, self:custom.defaultStage}
+    stage: ${opt:stage, self:custom.defaultStage}
+    environment: ${file(env.yml):${self:custom.stage}, file(env.yml):default}
+    snsTopicArn: "arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}"
+    snsTopics:
+        createdMessage: "createdMessage"
+    output:
+        file: .serverless/output.json
+    webpack:
+        webpackConfig: "webpack.config.js"
+        includeModules: true
+        packager: "npm"
+        excludeFiles:
+            - "**/__tests__/*"
+            - "**/*.test.*"
+            - "test/*"
+    prune:
+        automatic: true
+        number: 3
+    dynamodbTables:
+        MESSAGE_TABLE_NAME: ${self:service}-${opt:stage, self:provider.stage}
     # customDomain:
     #   basePath: "api"
     #   stage: ${self:provider.stage}
     #   domainName: serverless-aws-node-sample.dk
     #   certificateName: serverless-aws-node-sample.dk
     #   createRoute53Record: true
-    # userPoolName: test-user-pool-${self:custom.currentStage}
-    # userPoolClientName: test-user-pool-client-${self:custom.currentStage}
-    environment: ${file(env.yml):${self:custom.stage}, file(env.yml):default}
-    output:
-        file: .serverless/output.json
-    webpack:
-        webpackConfig: "webpack.config.js"
-        includeModules: false
-        packager: "npm"
-        excludeFiles: src/**/*.test.js
+    # userPoolName: test-user-pool-${self:custom.stage}
+    # userPoolClientName: test-user-pool-client-${self:custom.stage}

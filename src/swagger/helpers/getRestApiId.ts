@@ -1,4 +1,4 @@
-import apiGateway from "@shared/apiGateway";
+import apiGateway from "@infrastructure/apiGateway";
 import { APIGateway, AWSError } from "aws-sdk";
 
 const getRestApiId = async (

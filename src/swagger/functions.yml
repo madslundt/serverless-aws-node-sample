@@ -1,5 +1,5 @@
 getSwaggerJson:
-    handler: src/swagger/index.getSwaggerJson
+    handler: src/swagger/swaggerController.getSwaggerJson
     description: Returns the Swagger documentation of the API in JSON format.
 
     environment:

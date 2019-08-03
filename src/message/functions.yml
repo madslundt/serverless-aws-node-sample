@@ -1,0 +1,33 @@
+createMessage:
+    handler: src/message/messageController.createMessage
+    description: Creates a message to a user
+
+    environment:
+        snsTopicCreatedMessage: ${self:custom.snsTopics.createdMessage}
+
+    events:
+        - http:
+            path: "{userId}/messages"
+            method: get
+            cors: true
+            request:
+                parameters:
+                    paths:
+                        userId: true
+
+messageNotify:
+    handler: src/message/messageController.messageNotify
+    description: Notifies user(s) about a new message
+
+    events:
+        - sns: ${self:custom.snsTopics.createdMessage}
+
+getMessageInfo:
+    handler: src/message/messageController.getMessageInfo
+    description: Get message info for a message
+
+    events:
+        - http:
+            path: messages/{messageId}
+            method: get
+            cors: true
