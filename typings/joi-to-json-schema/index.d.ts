@@ -1,3 +1,3 @@
-declare module "joi-to-json-schema" {
-    export default function schemaToJson(schema: any): string;
+declare module 'joi-to-json-schema' {
+    export = function convert(joi: any,transformer: any): string;
 }

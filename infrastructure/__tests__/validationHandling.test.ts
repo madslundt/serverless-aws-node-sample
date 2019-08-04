@@ -12,7 +12,7 @@ describe("Validation Handling", () => {
         consoleWarnMock.mockClear();
     });
 
-    it("Should return value on valid request", () => {
+    it("Should return value when request is valid", () => {
         const expectedRequest = {
             id: random.number({ min: 1 })
         };
@@ -26,7 +26,7 @@ describe("Validation Handling", () => {
 
         expect(actualRequest).toStrictEqual(expectedRequest);
     });
-    it("Should throw BadRequestResut on invalid request", () => {
+    it("Should throw BadRequestResut when request does not follow the schema", () => {
         const expectedRequest = {
             id: random.number({ max: 0 })
         };
@@ -40,10 +40,53 @@ describe("Validation Handling", () => {
             validationHandling(expectedRequest, schema);
             expect(false).toBeTruthy();
         } catch (exception) {
-            expect(exception).toBeInstanceOf(BadRequestException)
+            expect(exception).toBeInstanceOf(BadRequestException);
         }
     });
-    it("Should call console.warn on invalid request", () => {
+    it("Should throw BadRequestResut when request is null", () => {
+        const schema: Joi.ObjectSchema = Joi.object().keys({
+            id: Joi.number()
+                .min(1)
+                .required()
+        });
+
+        try {
+            validationHandling(null, schema);
+            expect(false).toBeTruthy();
+        } catch (exception) {
+            console.log(exception);
+            expect(exception).toBeInstanceOf(BadRequestException);
+        }
+    });
+    it("Should throw BadRequestResut when request is undefined", () => {
+        const schema: Joi.ObjectSchema = Joi.object().keys({
+            id: Joi.number()
+                .min(1)
+                .required()
+        });
+
+        try {
+            validationHandling(undefined, schema);
+            expect(false).toBeTruthy();
+        } catch (exception) {
+            expect(exception).toBeInstanceOf(BadRequestException);
+        }
+    });
+    it("Should throw BadRequestResut when request is not an object", () => {
+        const schema: Joi.ObjectSchema = Joi.object().keys({
+            id: Joi.number()
+                .min(1)
+                .required()
+        });
+
+        try {
+            validationHandling(random.uuid(), schema);
+            expect(false).toBeTruthy();
+        } catch (exception) {
+            expect(exception).toBeInstanceOf(BadRequestException);
+        }
+    });
+    it("Should call console.warn request does not follow the schema", () => {
         const expectedRequest = {
             id: random.number({ max: 0 })
         };
