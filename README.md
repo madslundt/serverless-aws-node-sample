@@ -225,12 +225,18 @@ This project shows example Lambda function implementations with the following la
 - **Helpers**: Alternative helper functions.
 - **functions.yml**: Function configuration for AWS and documentation for Swagger. *Make all paths begin from root of the project*.
 - **Swagger**: Swagger documentation for all controller functions. *Make sure to add them to `/swagger/documentation.yml`*.
-- **__tests__**: Unit tests for controller, handlers, and helpers.
-- **index.ts**: Collect all functions for cleaner export.
+- **\_\_tests\_\_**: Unit tests for controller, handlers, and helpers.
 
 All layers have unit tests with mocking the underlying layers.
 
 It is important that all controllers are suffixed with `Controller.ts` and that all controller logic is handled inside the `errorHandling` function. `errorHandling` makes sure to handle all exceptions and return the correct status code. `controllers.test.ts` makes sure all controllers use the `errorHandling` function.
+
+Besides `/src` there are some common scripts:
+- **shared**: Contain shared scripts for common helpers and AWS services such as Cognito functions, DynamoDB models, SNS events, etc.
+- **infrastructure**: Contain all the basic infrastructure for the API and AWS services such as Cognito wrapper, DynamoDB wrapper, SNS wrapper, etc.
+- **test**: Test helper functions.
+- **swagger**: Basic Swagger errors in yml files.
+- **\_\_mocks\_\_**: Mocks when unit testing.
 
 Additional terms:
 
