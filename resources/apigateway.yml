@@ -1,0 +1,6 @@
+iamRoleStatements:
+    - Effect: "Allow"
+        Action:
+            - "apigateway:GET"
+        Resource:
+            - "arn:aws:apigateway:${self:provider.region}::/restapis*"

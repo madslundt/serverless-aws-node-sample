@@ -3,36 +3,17 @@ service: serverless-aws-node-sample
 provider:
     name: aws
     runtime: nodejs10.x
-    stage: ${self:custom.stage}
+    stage: ${opt:stage,'dev'}
     logRetentionInDays: 30
     timeout: 30
     tracing: true
-    environment:
-        SNS_TOPIC_ARN: ${self:custom.snsTopicArn}
+    environment: ${file(env.yml):${self:provider.stage}}
+    region: ${opt:region, 'us-east-1'}
     iamRoleStatements:
-        # DynamoDB
-        - Effect: Allow
-          Action:
-              - dynamodb:Query
-              - dynamodb:Scan
-              - dynamodb:GetItem
-              - dynamodb:PutItem
-              - dynamodb:UpdateItem
-              - dynamodb:DeleteItem
-          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:custom.dynamodbTables.MESSAGE_TABLE_NAME}"
-        # X-Ray
-        - Effect: "Allow"
-          Action:
-              - "xray:PutTraceSegments"
-              - "xray:PutTelemetryRecords"
-          Resource:
-              - "*"
-        # API Gateway
-        # - Effect: "Allow"
-        #   Action:
-        #       - "apigateway:GET"
-        #   Resource:
-        #       - "arn:aws:apigateway:${self:provider.region}::/restapis*"
+        - ${file(resources/xray.yml):iamRoleStatements}
+        # - ${file(resources/apigateway.yml):iamRoleStatements}
+        - ${file(resources/dynamodb.yml):iamRoleStatements}
+        - ${file(resources/sns.yml):iamRoleStatements}
 
 plugins:
     - serverless-webpack
@@ -44,6 +25,7 @@ plugins:
     - serverless-prune-plugin
     - serverless-dotenv-plugin
     # - serverless-domain-manager
+    - serverless-offline-sns
 
 package:
     individually: true
@@ -61,28 +43,24 @@ functions:
     - ${file(src/message/functions.yml)}
 
 resources:
-    # DynamoDB
-    - ${file(resources/dynamodb-tables.yml)}
-    # Cognito
-    - ${file(resources/cognito-user-pool.yml)}
-    # S3
-    #   - ${file(resources/s3-bucket.yml)}
-    # API Gateway Errors
-    #   - ${file(resources/api-gateway-errors.yml)}
+    - ${file(resources/dynamodb.yml):Resources}
+    - ${file(resources/cognito-user-pool.yml):Resources}
+    # - ${file(resources/s3-bucket.yml):Resources}
+    # - ${file(resources/api-gateway-errors.yml):Resources}
 
 custom:
     documentation: ${file(swagger/documentation.yml)}
-    defaultStage: dev
-    stage: ${opt:stage, self:custom.defaultStage}
-    environment: ${file(env.yml):${self:custom.stage}, file(env.yml):default}
-    snsTopicArn: "arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}"
-    snsTopics:
-        createdMessage: "createdMessage"
+    environment: ${file(env.yml):${self:provider.stage}, file(env.yml):default}
     output:
         file: .serverless/output.json
+    serverless-offline-sns:
+        port: 4002
+        debug: true
     webpack:
         webpackConfig: "webpack.config.js"
-        includeModules: true
+        includeModules:
+            forceExclude:
+                - aws-sdk
         packager: "npm"
         excludeFiles:
             - "**/__tests__/*"
@@ -91,13 +69,14 @@ custom:
     prune:
         automatic: true
         number: 3
-    dynamodbTables:
-        MESSAGE_TABLE_NAME: ${self:service}-${opt:stage, self:provider.stage}
     # customDomain:
     #   basePath: "api"
     #   stage: ${self:provider.stage}
     #   domainName: serverless-aws-node-sample.dk
     #   certificateName: serverless-aws-node-sample.dk
     #   createRoute53Record: true
-    # userPoolName: test-user-pool-${self:custom.stage}
-    # userPoolClientName: test-user-pool-client-${self:custom.stage}
+    # userPoolName: test-user-pool-${self:provider.stage}
+    # userPoolClientName: test-user-pool-client-${self:provider.stage}
+    dynamodbTables: ${file(resources/dynamodb.yml):custom.dynamodbTables}
+    snsTopicArns: ${file(resources/sns.yml):custom.snsTopicArns}
+    snsTopics: ${file(resources/sns.yml):custom.snsTopics}

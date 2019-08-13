@@ -1,0 +1,18 @@
+iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - SNS:Publish
+      Resource: ${self:custom.snsTopics.CREATED_MESSAGE}
+
+
+custom:
+    snsTopics:
+        CREATED_MESSAGE: ${self:custom.snsTopicArns.${self:provider.stage}.CREATED_MESSAGE}
+
+    snsTopicArns:
+        local:
+            CREATED_MESSAGE: "arn:aws:sns:us-east-1:123456789012:"
+        dev:
+            CREATED_MESSAGE: { "Fn::Join" : ["", ["arn:aws:sns:${self:provider.region}:", { "Ref" : "AWS::AccountId" }, ":" ] ]  }
+        prod:
+            CREATED_MESSAGE: { "Fn::Join" : ["", ["arn:aws:sns:${self:provider.region}:", { "Ref" : "AWS::AccountId" }, ":" ] ]  }

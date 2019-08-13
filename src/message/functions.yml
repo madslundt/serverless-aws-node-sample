@@ -3,7 +3,7 @@ createMessage:
     description: Creates a message to a user
 
     environment:
-        snsTopicCreatedMessage: ${self:custom.snsTopics.createdMessage}
+        SNS_TOPIC_CREATED_MESSAGE: ${self:custom.snsTopics.CREATED_MESSAGE}
 
     events:
         - http:
@@ -20,7 +20,7 @@ messageNotify:
     description: Notifies user(s) about a new message
 
     events:
-        - sns: ${self:custom.snsTopics.createdMessage}
+        - sns: ${self:custom.snsTopics.CREATED_MESSAGE}
 
 getMessageInfo:
     handler: src/message/messageController.getMessageInfo
@@ -31,3 +31,7 @@ getMessageInfo:
             path: messages/{messageId}
             method: get
             cors: true
+            request:
+                parameters:
+                    paths:
+                        messageId: true

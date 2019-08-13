@@ -5,7 +5,7 @@ export interface IRequest {
 }
 
 const publishCreatedMessage = async (request: IRequest) => {
-    const topic = process.env.snsTopicCreatedMessage;
+    const topic = process.env.SNS_TOPIC_CREATED_MESSAGE;
 
     const result = await snsPublish(request, topic);
 
