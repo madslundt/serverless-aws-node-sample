@@ -23,6 +23,7 @@ server.js*
 .DS_Store
 dist
 env.yml
+.env
 
 # Editor settings
 .idea

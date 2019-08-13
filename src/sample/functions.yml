@@ -4,9 +4,15 @@ getSample:
 
     events:
         - http:
-              path: sample
+              path: sample/{a}/{b}
               method: get
               cors: true
+              request:
+                  parameters:
+                      paths:
+                          a: true
+                          b: true
+
               documentation:
                   summary: Return sample
                   tags:

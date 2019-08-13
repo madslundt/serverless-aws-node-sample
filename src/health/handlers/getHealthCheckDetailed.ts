@@ -4,12 +4,14 @@ export interface IRequest {
 
 export interface IResponse {
     requestId: string;
+    environment?: string;
     success: boolean;
 }
 
 const handler = (request: IRequest): IResponse => {
     const result: IResponse = {
         requestId: request.requestId,
+        environment: process.env.stage,
         success: true,
     };
 

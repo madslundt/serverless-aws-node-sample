@@ -8,7 +8,7 @@ createMessage:
     events:
         - http:
             path: "{userId}/messages"
-            method: get
+            method: post
             cors: true
             request:
                 parameters:

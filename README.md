@@ -20,6 +20,8 @@ sls -v
 npm install
 ```
 
+5. Copy `env.template.yml` to `env.yml`
+
 ## Setup AWS credentials
 
 1. Setup IAM

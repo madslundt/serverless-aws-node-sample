@@ -54,7 +54,6 @@ describe("Validation Handling", () => {
             validationHandling(null, schema);
             expect(false).toBeTruthy();
         } catch (exception) {
-            console.log(exception);
             expect(exception).toBeInstanceOf(BadRequestException);
         }
     });

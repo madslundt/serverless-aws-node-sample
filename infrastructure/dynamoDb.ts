@@ -8,7 +8,12 @@ dynamoose.setDefaults({
     serverSideEncryption: true
 });
 
-const dynamoDB = new AWS.DynamoDB();
+const dynamoDB = new AWS.DynamoDB({
+    region: process.env.region,
+    endpoint: process.env.DYNAMODB_ENDPOINT,
+    accessKeyId: process.env.ACCESSKEYID,
+    secretAccessKey: process.env.SECRETACCESSKEY
+});
 
 dynamoose.setDDB(dynamoDB);
 

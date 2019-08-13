@@ -34,3 +34,14 @@ Resources:
 custom:
     dynamodbTables:
         MESSAGE_TABLE_NAME: ${self:service}-${opt:stage, self:provider.stage}
+    dynamodb:
+      stages:
+        - local
+      start:
+        port: 8000
+        inMemory: true
+        heapInitial: 200m
+        heapMax: 1g
+        migrate: true
+        seed: true
+        convertEmptyValues: true

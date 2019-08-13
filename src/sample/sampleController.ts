@@ -17,10 +17,10 @@ const getSample = async (
     callback: ApiCallback
 ) => {
     await errorHandling(async () => {
-        const request: IGetSampleRequest = {
-            a: 1,
-            b: 2
-        };
+        const request = {
+            a: event.pathParameters && Number(event.pathParameters.a),
+            b: event.pathParameters && Number(event.pathParameters.b)
+        } as IGetSampleRequest;
 
         const result = getSampleHandler(request);
 

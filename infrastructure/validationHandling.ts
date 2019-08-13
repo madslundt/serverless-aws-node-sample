@@ -1,4 +1,4 @@
-import { ObjectSchema, validate } from "joi";
+import { ObjectSchema } from "joi";
 // tslint:disable-next-line: no-var-requires TODO
 const joiToJson = require("joi-to-json-schema");
 import { BadRequestException } from "./errors";
@@ -10,7 +10,7 @@ const validationHandling = <T>(request: T | null | undefined, schema: ObjectSche
         throw new BadRequestException("Request was not an object", `Must follow schema: ${joiToJson(schema)}`);
     }
 
-    const { value, error } = validate<T>(request, schema);
+    const { value, error } = schema.validate<T>(request);
 
     if (!!error) {
         console.warn(error);
